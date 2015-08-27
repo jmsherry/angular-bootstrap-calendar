@@ -89,7 +89,7 @@ angular
         dayViewStart: '=',
         dayViewEnd: '=',
         dayViewSplit: '=',
-        weekDayClick: '='
+        weekdayClick: '='
       },
       controller: 'MwlCalendarWeekCtrl as vm',
       link: function(scope, element, attrs, calendarCtrl) {
