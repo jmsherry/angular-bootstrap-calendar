@@ -9,7 +9,7 @@
         'cal-day-past': day.isPast,
         'cal-day-today': day.isToday,
         'cal-day-future': day.isFuture}"
-      mwl-element-dimensions="vm.dayColumnDimensions">
+      mwl-element-dimensions="vm.dayColumnDimensions" ng-click="weekdayClick(day)">
 
       <span ng-bind="day.weekDayLabel"></span>
       <br>
