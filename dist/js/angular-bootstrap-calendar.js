@@ -101,8 +101,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  .constant('calendarUseTemplates', (true) === false)
 	  .run(["$templateCache", "calendarUseTemplates", function($templateCache, calendarUseTemplates) {
 	    if (calendarUseTemplates) {
-	      $templateCache.put('calendarMonthEventsList.html', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./templates/calendarMonthEventsList.html\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
-	      $templateCache.put('calendarMonthDay.html', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./templates/calendarMonthDay.html\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
+	      $templateCache.put('calendarMonthCellEvents.html', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./templates/calendarMonthCellEvents.html\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
+	      $templateCache.put('calendarMonthCell.html', __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./templates/calendarMonthCell.html\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())));
 	    }
 	  }]).name;
 
@@ -285,7 +285,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        cellModifier: '&',
 	        dayViewStart: '@',
 	        dayViewEnd: '@',
-	        dayViewSplit: '@'
+	        dayViewSplit: '@',
+	        monthCellTemplateUrl: '@',
+	        monthCellEventsTemplateUrl: '@'
 	      },
 	      controller: 'MwlCalendarCtrl as vm',
 	      bindToController: true
@@ -384,6 +386,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        currentDay: '=',
 	        onEventClick: '=',
 	        onEventTimesChanged: '=',
+	        onTimespanClick: '=',
 	        dayViewStart: '=',
 	        dayViewEnd: '=',
 	        dayViewSplit: '='
@@ -414,10 +417,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      dayViewEnd = moment(vm.dayViewEnd || '23:00', 'HH:mm');
 	      vm.dayViewSplit = parseInt(vm.dayViewSplit);
 	      vm.hours = [];
-	      var dayCounter = moment(dayViewStart);
+	      var dayCounter = moment(vm.currentDay)
+	        .clone()
+	        .hours(dayViewStart.hours())
+	        .minutes(dayViewStart.minutes())
+	        .seconds(dayViewStart.seconds());
 	      for (var i = 0; i <= dayViewEnd.diff(dayViewStart, 'hours'); i++) {
 	        vm.hours.push({
-	          label: calendarHelper.formatDate(dayCounter, calendarConfig.dateFormats.hour)
+	          label: calendarHelper.formatDate(dayCounter, calendarConfig.dateFormats.hour),
+	          date: dayCounter.clone()
 	        });
 	        dayCounter.add(1, 'hour');
 	      }
@@ -437,7 +445,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    $scope.$watchGroup([
 	      'vm.dayViewStart',
 	      'vm.dayViewEnd',
-	      'vm.dayViewSplit'
+	      'vm.dayViewSplit',
+	      'vm.currentDay'
 	    ], function() {
 	      updateDays();
 	    });
@@ -450,9 +459,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      template: calendarUseTemplates ? __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./../templates/calendarHourList.html\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())) : '',
 	      controller: 'MwlCalendarHourListCtrl as vm',
 	      scope: {
+	        currentDay: '=',
 	        dayViewStart: '=',
 	        dayViewEnd: '=',
-	        dayViewSplit: '='
+	        dayViewSplit: '=',
+	        onTimespanClick: '='
 	      },
 	      bindToController: true
 	    };
@@ -470,9 +481,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	angular
 	  .module('mwl.calendar')
-	  .controller('MwlCalendarMonthCtrl', ["$scope", "moment", "calendarHelper", function($scope, moment, calendarHelper) {
+	  .controller('MwlCalendarMonthCtrl', ["$scope", "moment", "calendarHelper", "calendarConfig", function($scope, moment, calendarHelper, calendarConfig) {
 
 	    var vm = this;
+	    vm.calendarConfig = calendarConfig;
 
 	    $scope.$on('calendar.refreshView', function() {
 
@@ -563,7 +575,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        deleteEventHtml: '=',
 	        autoOpen: '=',
 	        onTimespanClick: '=',
-	        cellModifier: '='
+	        cellModifier: '=',
+	        cellTemplateUrl: '@',
+	        cellEventsTemplateUrl: '@'
 	      },
 	      controller: 'MwlCalendarMonthCtrl as vm',
 	      link: function(scope, element, attrs, calendarCtrl) {
@@ -585,10 +599,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	angular
 	  .module('mwl.calendar')
-	  .controller('MwlCalendarSlideBoxCtrl', ["$sce", "$scope", "$timeout", function($sce, $scope, $timeout) {
+	  .controller('MwlCalendarSlideBoxCtrl', ["$sce", "$scope", "$timeout", "calendarConfig", function($sce, $scope, $timeout, calendarConfig) {
 
 	    var vm = this;
 	    vm.$sce = $sce;
+	    vm.calendarConfig = calendarConfig;
 
 	    vm.isCollapsed = true;
 	    $scope.$watch('vm.isOpen', function(isOpen) {
@@ -720,7 +735,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        onEventTimesChanged: '=',
 	        dayViewStart: '=',
 	        dayViewEnd: '=',
-	        dayViewSplit: '='
+	        dayViewSplit: '=',
+	        weekdayClick: '='
 	      },
 	      controller: 'MwlCalendarWeekCtrl as vm',
 	      link: function(scope, element, attrs, calendarCtrl) {
@@ -1464,14 +1480,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var dateFormatter = 'angular';
 	    var defaultDateFormats = angular.copy(defaultFormats[dateFormatter].date);
 	    var defaultTitleFormats = angular.copy(defaultFormats[dateFormatter].title);
+	    var displayEventEndTimes = false;
 	    var showTimesOnWeekView = false;
+	    var displayAllMonthEvents = false;
 
 	    var i18nStrings = {
 	      eventsLabel: 'Events',
 	      timeLabel: 'Time'
 	    };
-
-	    var displayAllMonthEvents = false;
 
 	    var configProvider = this;
 
@@ -1492,6 +1508,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    configProvider.setDisplayAllMonthEvents = function(value) {
 	      displayAllMonthEvents = value;
+	      return configProvider;
+	    };
+
+	    configProvider.setDisplayEventEndTimes = function(value) {
+	      displayEventEndTimes = value;
 	      return configProvider;
 	    };
 
@@ -1516,6 +1537,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        titleFormats: defaultTitleFormats,
 	        i18nStrings: i18nStrings,
 	        displayAllMonthEvents: displayAllMonthEvents,
+	        displayEventEndTimes: displayEventEndTimes,
 	        dateFormatter: dateFormatter,
 	        showTimesOnWeekView: showTimesOnWeekView
 	      };
@@ -1576,7 +1598,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            break;
 
 	          default:
-	            throw new Error('Invalid value (' + event.recursOn + ') given for recurs on. Can only be year, month or week.');
+	            throw new Error('Invalid value (' + event.recursOn + ') given for recurs on. Can only be year or month.');
 	        }
 
 	        eventEnd = adjustEndDateFromStartDiff(event.startsAt, eventStart, eventEnd);
