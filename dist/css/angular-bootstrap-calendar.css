@@ -247,7 +247,7 @@
   overflow-x: hidden;
 }
 .cal-week-box .adder {
-  position: fixed;
+  position: static;
 }
 .cal-day-box {
   text-wrap: none;
