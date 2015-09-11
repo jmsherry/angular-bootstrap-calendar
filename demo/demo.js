@@ -2,7 +2,12 @@
 
 angular
   .module('demo', ['mwl.calendar', 'ui.bootstrap', 'ngTouch', 'ngAnimate'])
-  .controller('MainCtrl', function ($modal, moment) {
+  .constant('moment', window.moment)
+  .controller('MainCtrl', MainCtrl);
+
+  MainCtrl.$inject = ['$log', 'moment'];
+
+  function MainCtrl($log, moment) {
 
     var vm = this;
 
@@ -66,7 +71,7 @@ angular
     }
 
     vm.eventClicked = function(event) {
-      showModal('Clicked', event);
+      //showModal('Clicked', event);
     };
 
     vm.eventEdited = function(event) {
@@ -87,4 +92,9 @@ angular
       event[field] = !event[field];
     };
 
-  });
+    vm.addClicked = function(event) {
+      $log.log('yes');
+      showModal('addClicked', event);
+    };
+
+  }

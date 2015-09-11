@@ -10,6 +10,8 @@ angular
 
     vm.events = vm.events || [];
 
+    //vm.onAddClick = vm.onAddClick;
+
     vm.changeView = function(view, newDay) {
       vm.view = view;
       vm.currentDay = newDay;
@@ -105,7 +107,7 @@ angular
         refreshCalendar();
       }
     });
-
+$log.log('mwlCalendar', vm);
   })
   .directive('mwlCalendar', function(calendarUseTemplates) {
 
@@ -126,6 +128,7 @@ angular
         onDeleteEventClick: '&',
         onTimespanClick: '&',
         onDrillDownClick: '&',
+        onAddClick: '&',
         cellModifier: '&',
         dayViewStart: '@',
         dayViewEnd: '@',

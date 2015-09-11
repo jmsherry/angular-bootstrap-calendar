@@ -94,6 +94,7 @@ angular
         onEditEventClick: '=',
         onDeleteEventClick: '=',
         onEventTimesChanged: '=',
+        onAddClick: '&',
         editEventHtml: '=',
         deleteEventHtml: '=',
         autoOpen: '=',

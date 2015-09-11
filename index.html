@@ -93,6 +93,7 @@
             delete-event-html="'<i class=\'glyphicon glyphicon-remove\'></i>'"
             on-edit-event-click="vm.eventEdited(calendarEvent)"
             on-delete-event-click="vm.eventDeleted(calendarEvent)"
+            on-add-click="vm.addClicked(day)"
             auto-open="true"
             day-view-start="06:00"
             day-view-end="22:00"
@@ -227,6 +228,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-touch.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/locale/en-gb.js"></script>
     <script src="demo/demo.js"></script>
 </body>
 </html>

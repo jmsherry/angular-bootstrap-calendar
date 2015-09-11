@@ -86,6 +86,7 @@ angular
         currentDay: '=',
         onEventClick: '=',
         onEventTimesChanged: '=',
+        onAddClick: '=',
         dayViewStart: '=',
         dayViewEnd: '=',
         dayViewSplit: '=',
