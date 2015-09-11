@@ -1,5 +1,5 @@
 /**
- * angular-bootstrap-calendar - A pure AngularJS bootstrap themed responsive calendar that can display events and has views for year, month, week and day
+ * angular-bootstrap-calendar-datepicker - A pure AngularJS bootstrap themed responsive calendar that can display events and has views for year, month, week and day
  * @version v0.14.6
  * @link https://github.com/mattlewis92/angular-bootstrap-calendar
  * @license MIT
@@ -217,6 +217,11 @@
 .cal-slide-content ul li.dragging-active .event-item {
   color: black;
 }
+.adder {
+  position: absolute;
+  bottom: 15px;
+  right: 5px;
+}
 .cal-week-box {
   position: relative;
 }
@@ -240,6 +245,9 @@
 }
 .cal-week-box.cal-day-box .cal-day-panel {
   overflow-x: hidden;
+}
+.cal-week-box .adder {
+  position: fixed;
 }
 .cal-day-box {
   text-wrap: none;

@@ -1,5 +1,5 @@
 /**
- * angular-bootstrap-calendar - A pure AngularJS bootstrap themed responsive calendar that can display events and has views for year, month, week and day
+ * angular-bootstrap-calendar-datepicker - A pure AngularJS bootstrap themed responsive calendar that can display events and has views for year, month, week and day
  * @version v0.14.6
  * @link https://github.com/mattlewis92/angular-bootstrap-calendar
  * @license MIT
@@ -166,6 +166,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    vm.events = vm.events || [];
 
+	    //vm.onAddClick = vm.onAddClick;
+
 	    vm.changeView = function(view, newDay) {
 	      vm.view = view;
 	      vm.currentDay = newDay;
@@ -261,7 +263,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        refreshCalendar();
 	      }
 	    });
-
+	$log.log('mwlCalendar', vm);
 	  }])
 	  .directive('mwlCalendar', ["calendarUseTemplates", function(calendarUseTemplates) {
 
@@ -282,6 +284,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        onDeleteEventClick: '&',
 	        onTimespanClick: '&',
 	        onDrillDownClick: '&',
+	        onAddClick: '&',
 	        cellModifier: '&',
 	        dayViewStart: '@',
 	        dayViewEnd: '@',
@@ -571,6 +574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        onEditEventClick: '=',
 	        onDeleteEventClick: '=',
 	        onEventTimesChanged: '=',
+	        onAddClick: '&',
 	        editEventHtml: '=',
 	        deleteEventHtml: '=',
 	        autoOpen: '=',
@@ -733,6 +737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        currentDay: '=',
 	        onEventClick: '=',
 	        onEventTimesChanged: '=',
+	        onAddClick: '=',
 	        dayViewStart: '=',
 	        dayViewEnd: '=',
 	        dayViewSplit: '=',
