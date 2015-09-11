@@ -14,6 +14,7 @@ angular
     //These variables MUST be set as a minimum for the calendar to work
     vm.calendarView = 'month';
     vm.calendarDay = new Date();
+    vm.canAdd = true;
     vm.events = [
       {
         title: 'An event',

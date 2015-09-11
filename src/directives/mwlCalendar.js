@@ -122,6 +122,7 @@ $log.log('mwlCalendar', vm);
         editEventHtml: '=',
         deleteEventHtml: '=',
         autoOpen: '=',
+        canAdd: '=',
         onEventClick: '&',
         onEventTimesChanged: '&',
         onEditEventClick: '&',
