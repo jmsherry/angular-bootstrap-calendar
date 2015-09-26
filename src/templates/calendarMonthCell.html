@@ -32,7 +32,7 @@
 
 
   <ng-include src="vm.cellEventsTemplateUrl || 'calendarMonthCellEvents.html'"></ng-include>
-  <button class="adder btn btn-primary" ng-disabled="!vm.calendarCtrl.canAdd" ng-if="!day.isPast" ng-click="vm.calendarCtrl.onAddClick(day)"><span class="sr-only">Add an event</span><span class="glyphicon glyphicon-plus"></span></button>
+  <button class="adder btn btn-primary" ng-disabled="!vm.calendarCtrl.meals > 0" ng-if="!day.isPast" ng-click="vm.calendarCtrl.onAddClick({day: day})"><span class="sr-only">Add an event</span><span class="glyphicon glyphicon-plus"></span></button>
 
   <div id="cal-week-box" ng-if="$first && rowHovered">
     Week {{ day.date.week() }}

@@ -80,11 +80,12 @@
 
           </div>
 
-          <br><button class="btn btn-danger" ng-click="vm.canAdd = !vm.canAdd">disable</button>
+          <br>
 
           <mwl-calendar
             events="vm.events"
             view="vm.calendarView"
+            meals="vm.meals"
             view-title="vm.calendarTitle"
             current-day="vm.calendarDay"
             can-add="vm.canAdd"

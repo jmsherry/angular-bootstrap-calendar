@@ -83,6 +83,7 @@ angular
       require: '^mwlCalendar',
       scope: {
         events: '=',
+        meals: '=',
         currentDay: '=',
         onEventClick: '=',
         onEventTimesChanged: '=',
