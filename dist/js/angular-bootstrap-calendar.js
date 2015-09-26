@@ -165,8 +165,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var vm = this;
 
 	    vm.events = vm.events || [];
-
-	    //vm.onAddClick = vm.onAddClick;
+	    vm.meals = vm.meals || [];
 
 	    vm.changeView = function(view, newDay) {
 	      vm.view = view;
@@ -259,6 +258,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        eventsWatched = true;
 	        //need to deep watch events hence why it isn't included in the watch group
 	        $scope.$watch('vm.events', refreshCalendar, true); //this will call refreshCalendar when the watcher starts (i.e. now)
+	        $scope.$watch('vm.meals', refreshCalendar, true);
 	      } else {
 	        refreshCalendar();
 	      }
@@ -272,8 +272,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      restrict: 'EA',
 	      scope: {
 	        events: '=',
+	        meals: '=',
 	        view: '=',
-	        viewTitle: '=?',
+	        viewTitle: '=',
 	        currentDay: '=',
 	        editEventHtml: '=',
 	        deleteEventHtml: '=',
@@ -735,6 +736,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      require: '^mwlCalendar',
 	      scope: {
 	        events: '=',
+	        meals: '=',
 	        currentDay: '=',
 	        onEventClick: '=',
 	        onEventTimesChanged: '=',
