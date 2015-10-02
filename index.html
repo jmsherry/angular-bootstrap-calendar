@@ -34,7 +34,8 @@
     <div class="container-fluid">
 
       <div class="row" ng-controller="MainCtrl as vm" id="demo">
-
+<button class="btn btn-danger" ng-click="vm.toggleMeals()">Toggle Meals</button>
+<p>{{vm.meals.length}}</p>
         <div class="col-md-8 col-md-offset-2">
           <h2 class="text-center">{{ vm.calendarTitle }}</h2>
 
@@ -84,11 +85,10 @@
 
           <mwl-calendar
             events="vm.events"
-            view="vm.calendarView"
             meals="vm.meals"
+            view="vm.calendarView"
             view-title="vm.calendarTitle"
             current-day="vm.calendarDay"
-            can-add="vm.canAdd"
             on-event-click="vm.eventClicked(calendarEvent)"
             on-event-times-changed="vm.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
             edit-event-html="'<i class=\'glyphicon glyphicon-pencil\'></i>'"

@@ -15,6 +15,8 @@ angular
     vm.calendarView = 'month';
     vm.calendarDay = new Date();
     vm.meals = [{}, {}, {}];
+    //vm.canAdd = vm.meals > 0;
+
     vm.events = [
       {
         title: 'An event',
@@ -41,24 +43,18 @@ angular
       }
     ];
 
+    function toggleMeals(){
+      $log.log('toggleCanAdd called!');
+      if(vm.meals.length){
+        vm.meals = [];
+      } else {
+        vm.meals = [{id:1}, {id: 2}, {id: 3}];
+      }
+      //vm.canAdd = !vm.canAdd;
 
-    /*
-     var currentYear = moment().year();
-     var currentMonth = moment().month();
-
-    function random(min, max) {
-      return Math.floor((Math.random() * max) + min);
     }
 
-    for (var i = 0; i < 1000; i++) {
-      var start = new Date(currentYear,random(0, 11),random(1, 28),random(0, 24),random(0, 59));
-     vm.events.push({
-        title: 'Event ' + i,
-        type: 'warning',
-        startsAt: start,
-        endsAt: moment(start).add(2, 'hours').toDate()
-      })
-    }*/
+        vm.toggleMeals = toggleMeals;
 
     function showModal(action, event) {
       $modal.open({
@@ -71,6 +67,8 @@ angular
         controllerAs: 'vm'
       });
     }
+
+
 
     vm.eventClicked = function(event) {
       //showModal('Clicked', event);
