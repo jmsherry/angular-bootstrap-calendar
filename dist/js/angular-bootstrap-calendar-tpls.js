@@ -127,7 +127,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 15 */
 /***/ function(module, exports) {
 
-	module.exports = "<div\n  mwl-droppable\n  on-drop=\"vm.handleEventDrop(dropData.event, day.date)\"\n  class=\"cal-month-day {{ day.cssClass }}\"\n  ng-class=\"{\n            'cal-day-outmonth': !day.inMonth,\n            'cal-day-inmonth': day.inMonth,\n            'cal-day-weekend': day.isWeekend,\n            'cal-day-past': day.isPast,\n            'cal-day-today': day.isToday,\n            'cal-day-future': day.isFuture\n          }\">\n\n  <small\n    class=\"cal-events-num badge badge-important pull-left\"\n    ng-show=\"day.badgeTotal > 0\"\n    ng-bind=\"day.badgeTotal\">\n  </small>\n\n  <span\n    class=\"pull-right\"\n    data-cal-date\n    ng-click=\"vm.calendarCtrl.drillDown(day.date)\"\n    ng-bind=\"day.label\">\n  </span>\n\n  <div class=\"cal-day-tick\" ng-show=\"dayIndex === vm.openDayIndex && vm.view[vm.openDayIndex].events.length > 0\">\n    <i class=\"glyphicon glyphicon-chevron-up\"></i>\n    <i class=\"fa fa-chevron-up\"></i>\n  </div>\n\n\n\n  <ng-include src=\"vm.cellEventsTemplateUrl || 'calendarMonthCellEvents.html'\"></ng-include>\n  <button class=\"adder btn btn-primary\" ng-disabled=\"!vm.calendarCtrl.meals > 0\" ng-if=\"!day.isPast\" ng-click=\"vm.calendarCtrl.onAddClick({day: day})\"><span class=\"sr-only\">Add an event</span><span class=\"glyphicon glyphicon-plus\"></span></button>\n\n  <div id=\"cal-week-box\" ng-if=\"$first && rowHovered\">\n    Week {{ day.date.week() }}\n  </div>\n\n</div>\n";
+	module.exports = "<div\n  mwl-droppable\n  on-drop=\"vm.handleEventDrop(dropData.event, day.date)\"\n  class=\"cal-month-day {{ day.cssClass }}\"\n  ng-class=\"{\n            'cal-day-outmonth': !day.inMonth,\n            'cal-day-inmonth': day.inMonth,\n            'cal-day-weekend': day.isWeekend,\n            'cal-day-past': day.isPast,\n            'cal-day-today': day.isToday,\n            'cal-day-future': day.isFuture\n          }\">\n\n  <small\n    class=\"cal-events-num badge badge-important pull-left\"\n    ng-show=\"day.badgeTotal > 0\"\n    ng-bind=\"day.badgeTotal\">\n  </small>\n\n  <span\n    class=\"pull-right\"\n    data-cal-date\n    ng-click=\"vm.calendarCtrl.drillDown(day.date)\"\n    ng-bind=\"day.label\">\n  </span>\n\n  <div class=\"cal-day-tick\" ng-show=\"dayIndex === vm.openDayIndex && vm.view[vm.openDayIndex].events.length > 0\">\n    <i class=\"glyphicon glyphicon-chevron-up\"></i>\n    <i class=\"fa fa-chevron-up\"></i>\n  </div>\n\n\n\n  <ng-include src=\"vm.cellEventsTemplateUrl || 'calendarMonthCellEvents.html'\"></ng-include>\n  <button class=\"adder btn btn-primary\" ng-disabled=\"!vm.meals.length > 0\" ng-if=\"!day.isPast\" ng-click=\"vm.calendarCtrl.onAddClick({day: day})\"><span class=\"sr-only\">Add an event</span>{{vm.meals.length}}<span class=\"glyphicon glyphicon-plus\"></span></button>\n\n  <div id=\"cal-week-box\" ng-if=\"$first && rowHovered\">\n    Week {{ day.date.week() }}\n  </div>\n\n</div>\n";
 
 /***/ },
 /* 16 */
@@ -269,8 +269,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (!eventsWatched) {
 	        eventsWatched = true;
 	        //need to deep watch events hence why it isn't included in the watch group
-	        $scope.$watch('vm.events', refreshCalendar, true); //this will call refreshCalendar when the watcher starts (i.e. now)
+	        //$scope.$watchGroup(['vm.events', 'vm.meals'], refreshCalendar, true); //this will call refreshCalendar when the watcher starts (i.e. now)
 	        $scope.$watch('vm.meals', refreshCalendar, true);
+	        $scope.$watch('vm.events', refreshCalendar, true);
+
 	      } else {
 	        refreshCalendar();
 	      }
@@ -291,7 +293,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        editEventHtml: '=',
 	        deleteEventHtml: '=',
 	        autoOpen: '=',
-	        canAdd: '=',
 	        onEventClick: '&',
 	        onEventTimesChanged: '&',
 	        onEditEventClick: '&',
@@ -601,6 +602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      require: '^mwlCalendar',
 	      scope: {
 	        events: '=',
+	        meals: '=',
 	        currentDay: '=',
 	        onEventClick: '=',
 	        onEditEventClick: '=',
